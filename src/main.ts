@@ -768,8 +768,10 @@ export default class AdvancedURI extends Plugin {
         }
 
         const line = Math.min(rawLine - 1, view.editor.lineCount() - 1);
+        const pos = { line: line, ch: view.editor.getLine(line).length };
         view.editor.focus();
-        view.editor.setCursor({ line: line, ch: view.editor.getLine(line).length });
+        view.editor.setCursor(pos);
+        view.editor.scrollIntoView({ from: pos, to: pos }, true);
     }
 
     handleCopyFileURI(withoutData: boolean, file?: TFile) {
