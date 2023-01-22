@@ -759,7 +759,12 @@ export default class AdvancedURI extends Plugin {
     }
 
     setCursorInLine(rawLine: number) {
-        const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+        let view = this.app.workspace.getActiveViewOfType(MarkdownView);
+        if (!view) {
+            this.app.workspace.iterateAllLeaves(leaf => {
+                if (leaf.getViewState().type === 'markdown') view = leaf.view as MarkdownView;
+            });
+        }
         if (!view) return;
         const viewState = view.leaf.getViewState();
         if (viewState.state.mode !== "source") {
